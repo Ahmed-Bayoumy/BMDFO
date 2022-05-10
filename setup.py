@@ -11,6 +11,8 @@ setup(
     long_description= long_description,
     long_description_content_type="text/markdown",
     author="Ahmed H. Bayoumy",
+    author_email='ahmed.bayoumy@mail.mcgill.ca',
+    url='https://github.com/Ahmed-Bayoumy/BM_DFO',
     license="GNU LESSER GENERAL PUBLIC LICENSE",
     classifiers=[
         "Development Status :: 1 - release"
