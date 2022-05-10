@@ -27,7 +27,7 @@ terminal window under the src directory or imported in the optimization solver c
 which contains the problem input parameters, should be entered as an input argument to the `OMADS.py` call. 
 
 ```commandline
-python BM_DFO.py
+python .\BM_suite.py uncon ..\tests
 ```
 
 ```OMADS.py
