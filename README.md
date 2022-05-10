@@ -1,9 +1,9 @@
-# BM_DFO
+# BMDFO
 Benchmarking suite for DFO algorithms
 
 ---
 
-**Version 1.0.0**
+**Version 1.0.1**
 
 Testing suite aims to benchmark derivative-free optimization (DFO) algorithms mainly 'OMADS.py'
 
@@ -17,20 +17,20 @@ Testing suite aims to benchmark derivative-free optimization (DFO) algorithms ma
 ## Installation
 
 ```commandline
-$ pip install BM_DFO
+$ pip install BMDFO
 ```
 ---
 ## How to use
 
-After installing the libraries listed in the `requirements.txt`, `BM_suite.py` can be called directly from a 
+After installing the libraries listed in the `requirements.txt`, `BMDFO.py` can be called directly from a 
 terminal window under the src directory or imported in the optimization solver code. The path of the JSON template, 
 which contains the problem input parameters, should be entered as an input argument to the `OMADS.py` call. 
 
 ```commandline
-python .\BM_suite.py uncon ..\tests
+python BMDFO.py uncon .\tests
 ```
 
 ```OMADS.py
-import BM_DFO as bm
+import BMDFO as bm
 ```
 
