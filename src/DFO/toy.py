@@ -1,6 +1,6 @@
 """
 #-------------------------------------------------------------------------------------#
-#  Benchmarking suite for derivative-free optimization algorithms                     #
+#  Benchmarking suite for non-linear optimization algorithms                          #
 #                                                                                     #
 #  Author: Ahmed H. Bayoumy                                                           #
 #  email: ahmed.bayoumy@mail.mcgill.ca                                                #
@@ -18,7 +18,7 @@
 #  with this program. If not, see <http://www.gnu.org/licenses/>.                     #
 #                                                                                     #
 #  You can find information on OMADS at                                               #
-#  https://github.com/Ahmed-Bayoumy/OMADS                                             #
+#  https://github.com/Ahmed-Bayoumy/NOBM                                              #
 # ------------------------------------------------------------------------------------#
 """
 import sys
@@ -103,7 +103,7 @@ class UnconSO:
 
     Attributes
     ----------
-    x: List[float]
+    x : List[float]
         Design vector (minimizer)
     _name : str
         Test function name
@@ -670,7 +670,18 @@ class ConSO:
 
 
 @dataclass
-class Run:
+class _UM:
+    """ Utility Methods """
+
+    def merge_dicts(self, d1: dict, d2: dict):
+        return d1.update(d2)
+
+    def getListOfKeys(self, d: dict):
+        return [*d]
+
+
+@dataclass
+class Run(_UM):
     """ Benchmark run setup and stats plotting
 
     See https://www.gerad.ca/Sebastien.Le.Digabel/MTH8418/2_benchmarking.pdf
@@ -687,8 +698,7 @@ class Run:
 
     def __post_init__(self):
         self.field_names = ['NAME', "RUN#", "#VAR", "#INEQCON", '#SUCCESS', '#ITER', '#BBEVAL', 'RUNTIME_SEC',
-                            '#FEVAL', 'PSIZE', "PS_SUCCESS",
-                            "PS_MAX", 'HMIN', 'FMIN',
+                            '#FEVAL', 'HMIN', 'FMIN',
                             'FEX', 'F_ERR']
         self.uncon_test_names = ["ackley", "beale", "dixonprice", "griewank", "levy", "michalewicz", "perm", "powell",
                                  "powersum", "rastrigin", "rosenbrock", "schwefel", "sphere", "trid", "zakharov"]
@@ -703,8 +713,7 @@ class Run:
                 self.file_writer.writeheader()
 
     def add_row(self, name: str, run_index: int, nv: int, nc: int, nb_success: int, it: int,
-                BBEVAL: int, runtime: float, feval: int, psize: float,
-                psize_success: float, psize_max: float, hmin: float, fmin: float):
+                BBEVAL: int, runtime: float, feval: int, hmin: float, fmin: float):
         """ Add a row for each optimization run in the output table.
 
 
@@ -719,9 +728,6 @@ class Run:
         BBEVAL: int, no. of blackbox evaluations
         runtime: float, optimization runtime in seconds
         feval: float, evaluated criteria
-        psize: float, poll size
-        psize_success: float, successful poll size
-        psize_max: float, maximum poll size
         hmin: float, active set evaluated at the optimal minimizer
         fmin: float, function value evaluated at the optimal minimizer
 
@@ -754,8 +760,7 @@ class Run:
         err = abs(fex - fmin)
         row = {'NAME': name, 'RUN#': run_index, "#VAR": nv, "#INEQCON": nc, '#SUCCESS': nb_success, '#ITER': it,
                '#BBEVAL': BBEVAL, 'RUNTIME_SEC': runtime,
-               '#FEVAL': feval, 'PSIZE': psize, "PS_SUCCESS": psize_success,
-               "PS_MAX": psize_max, 'HMIN': hmin, 'FMIN': fmin, 'FEX': fex,
+               '#FEVAL': feval, 'HMIN': hmin, 'FMIN': fmin, 'FEX': fex,
                'F_ERR': err}
 
         with open(os.path.join(self.report_path, 'BM_report.csv'), 'a', newline='') as f:
