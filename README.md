@@ -1,11 +1,12 @@
-# BMDFO
-Benchmarking suite for DFO algorithms
+# NOBM
+Benchmarking suite for non-linear optimization algorithms
 
 ---
 
-**Version 1.0.1**
+**Version 1.0.0**
 
-Testing suite aims to benchmark derivative-free optimization (DFO) algorithms mainly 'OMADS.py'
+Testing suite aims to benchmark derivative-free optimization (DFO) algorithms mainly 'OMADS.py' and multidisciplinary
+design optimization (MDO) algorithms
 
 
 ---
@@ -17,20 +18,20 @@ Testing suite aims to benchmark derivative-free optimization (DFO) algorithms ma
 ## Installation
 
 ```commandline
-$ pip install BMDFO
+$ pip install NOBM
 ```
 ---
 ## How to use
 
-After installing the libraries listed in the `requirements.txt`, `BMDFO.py` can be called directly from a 
-terminal window under the src directory or imported in the optimization solver code. The path of the JSON template, 
-which contains the problem input parameters, should be entered as an input argument to the `OMADS.py` call. 
+After installing the libraries listed in the `requirements.txt`, `NOBM` can be imported in the optimization solver code. 
+For benchmarking `OMADS`, the path of the JSON template, which contains the problem setup, should be entered as an 
+input argument to the `OMADS.py` call. 
 
 ```commandline
 python BMDFO.py uncon .\tests
 ```
 
-```OMADS.py
-import BMDFO as bm
+```commandline
+from NOBM.toy import * 
 ```
 
