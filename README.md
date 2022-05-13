@@ -3,7 +3,7 @@ Benchmarking suite for non-linear optimization algorithms
 
 ---
 
-**Version 1.0.0**
+**Version 1.0.1**
 
 Testing suite aims to benchmark derivative-free optimization (DFO) algorithms mainly 'OMADS.py' and multidisciplinary
 design optimization (MDO) algorithms
