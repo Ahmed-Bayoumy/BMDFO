@@ -2,4 +2,6 @@
 dist/
 *.toml
 *.cfg
+*.pyc
+*.egg*
 
