@@ -40,7 +40,7 @@ def SBJ_opt1(x, y):
   else:
     theta = 0.7519
   r = user.M * x[2] * 661 * np.sqrt(theta/x[0])*math.log(y[0]/(y[0]-x[4]))
-  G = -r/2000 +1
+  G = -r/2000. +1.
 
   return [y[0], [G]]
 
@@ -72,7 +72,7 @@ def SBJ_opt2(x, y):
   g1 = g1 /Temp_uA-1
   p=[11483.7822254806, 10856.2163466548, -0.5080237941, 3200.157926969, -0.1466251679, 0.0000068572]
   Throttle_uA=p[0]+p[1]*user.M+p[2]*user.h+p[3]*user.M**2+2*p[4]*user.M*user.h+p[5]*user.h**2
-
+  
   return[0, [g1, Dim_Throttle/Throttle_uA-1]]
 
 def SBJ_A3(x):
@@ -80,7 +80,7 @@ def SBJ_A3(x):
   # %----Inputs----%
   Z = [x[3],user.h,user.M,x[4],x[5],x[6],x[7],x[8]]
   C = [500.0, 16000.0,  4.0,  4360.0,  0.01375,  1.0]
-  Z = [1,	55000,	1.40000000000000,	1,	1,	1,	1,	1]
+  # Z = [1,	55000,	1.40000000000000,	1,	1,	1,	1,	1]
   ARht=Z[7]
   S_ht=Z[6]    
   Nh=C[5]
@@ -222,29 +222,29 @@ def SBJ_A4(x):
   ts1=[ts[i] for i in range(3)] 
   ts2=[ts[i] for i in range(3, 6)]  
   ts3=[ts[i] for i in range(6, 9)]  
-  G=4000000*144
-  E=10600000*144
-  rho_alum=0.1*144
-  rho_core=0.1*144/10
+  G=4000000.*144.
+  E=10600000.*144.
+  rho_alum=0.1*144.
+  rho_core=0.1*144/10.
   rho_fuel=6.5*7.4805
-  Fw_at_t=5
+  Fw_at_t=5.
 
   # %----Inputs----%
   beta=.9
   c,c_box,Sweep_40,D_mx,b,_ = Wing_Mod(Z,LAMBDA)
   l=0.6*c_box
   h=(np.multiply([c[i] for i in range(3)], beta*float(Z[0])))-np.multiply((0.5),np.add(ts1,ts3))
-  A_top=(np.multiply(t1, 0.5*l))+(np.multiply(t2, h/6))
-  A_bottom=(np.multiply(t3, 0.5*l))+(np.multiply(t2, h/6))
+  A_top=(np.multiply(t1, 0.5*l))+(np.multiply(t2, h/6.))
+  A_bottom=(np.multiply(t3, 0.5*l))+(np.multiply(t2, h/6.))
   Y_bar=np.multiply(h, np.divide((2*A_top), (2*A_top+2*A_bottom)))
   Izz=np.multiply(2, np.multiply(A_top, np.power((h-Y_bar), 2)))+np.multiply(2, np.multiply(A_bottom,np.power((-Y_bar), 2)))
   P,Mz,Mx,bend_twist,Spanel=loads(b,c,Sweep_40,D_mx,L,Izz,Z,E)
 
   Phi=(Mx/(4*G*(l*h)**2))*(l/t1+2*h/t2+l/t3)
   aa=len(bend_twist)
-  twist = np.array([0] * aa)
-  twist[0:int(aa/3)]=bend_twist[0:int(aa/3)]+Phi[0]*180/pi
-  twist[int(aa/3):int(aa*2/3)]=bend_twist[int(aa/3):int(aa*2/3)]+Phi[1]*180/pi
+  twist = np.array([0.] * aa)
+  twist[0:int(aa/3)]=bend_twist[0:int(aa/3)]+Phi[0]*180./pi
+  twist[int(aa/3.):int(aa*2./3.)]=bend_twist[int(aa/3.):int(aa*2./3.)]+Phi[1]*180./pi
   twist[int(aa*2/3):aa]=bend_twist[int(aa*2/3):aa]+Phi[2]*180/pi
   deltaL_divby_q=sum(twist*Spanel*0.1*2)
 
@@ -533,7 +533,7 @@ def SBJ_opt4(x, y):
   G1[51:54]=t3/(ts3-.1*t3)-1
 
 
-  return[0, [xx for xx in G1]]
+  return[0, G1.tolist()]
 
 def polyApprox(S, S_new, flag, S_bound):
   S_norm = []
@@ -541,7 +541,7 @@ def polyApprox(S, S_new, flag, S_bound):
   Ai = []
   Aij = np.zeros((len(S),len(S)))
   for i in range(len(S)):
-    S_norm.append(S_new[int(i/S[i])])
+    S_norm.append(S_new[i]/S[i])
     if S_norm[i]>1.25:
       S_norm[i]=1.25
     elif S_norm[i]<0.75:
@@ -634,7 +634,7 @@ def Run():
   altitude = 55000
   Mach = 1.4
   bl = [1.]*55
-  scaling = np.subtract(ub,lb)
+  scaling = np.subtract(ub,lb)/10.
 
   Qscaling = []
 
@@ -721,13 +721,13 @@ def Run():
   # Construct the coordinator
   coord = ADMM(beta = 1.3,
   nsp=4,
-  budget = 500,
+  budget = 200,
   index_of_master_SP=1,
   display = True,
   scaling = Qscaling,
   mode = "serial",
   M_update_scheme= w_scheme.MEDIAN,
-  store_q_io=True
+  store_q_io=False
   )
 
   # Construct subproblems
@@ -802,7 +802,7 @@ def Run():
   inc_stop = 1E-9,
   stop = "Iteration budget exhausted",
   tab_inc = [],
-  noprogress_stop = 500
+  noprogress_stop = 200
   )
 
   user = USER
@@ -812,7 +812,24 @@ def Run():
   user.M = 1.4
   
   out = MDAO.run()
+  # Print summary output
+  print(f'------Run_Summary------')
+  print(MDAO.stop)
+  print(f'q = {MDAO.Coordinator.q}')
+  for i in MDAO.Coordinator.master_vars:
+    print(f'{i.name}_{i.sp_index} = {i.value}')
+
+  fmin = 0
+  hmax = -np.inf
+  for j in range(len(MDAO.subProblems)):
+    print(f'SP_{MDAO.subProblems[j].index}: fmin= {MDAO.subProblems[j].MDA_process.getOutputs()}, hmin= {MDAO.subProblems[j].opt([s.value for s in MDAO.subProblems[j].get_design_vars()] , MDAO.subProblems[j].MDA_process.getOutputs())[1]}')
+    fmin += sum(MDAO.subProblems[j].MDA_process.getOutputs())
+    hmin= MDAO.subProblems[j].opt([s.value for s in MDAO.subProblems[j].get_design_vars()] , MDAO.subProblems[j].MDA_process.getOutputs())[1]
+    if max(hmin) > hmax: 
+      hmax = max(hmin) 
+  print(f'P_main: fmin= {fmin}, hmax= {hmax}')
+  print(f'Final obj value of the main problem: \n {fmin}')
 
 if __name__ == "__main__":
-  SBJ()
+  Run()
   

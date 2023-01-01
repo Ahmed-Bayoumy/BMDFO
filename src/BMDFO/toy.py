@@ -498,7 +498,7 @@ class ConSO:
         f = (x1 * (-sqrt(n, dtype=self._dtype.dtype) ** n) * prod(self.x, dtype=self._dtype.dtype))
         return [f, c]
 
-    def geom_prog(self) -> [float, list]:
+    def geom_prog(self):
         """
         This problem has been reformulated as we assume that x0 , x1 , x2 , x5 are responses from analysis models
         r1 , r2 , r3 , r4 , the equality constraints can be regarded as analysis models and the overall problem can be
