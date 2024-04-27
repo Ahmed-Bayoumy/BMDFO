@@ -1,5 +1,0 @@
-numpy~=1.19.1
-pandas~=1.4.2
-matplotlib~=3.4.2
-setuptools~=47.1.0
-DMDO~=1.3.0
