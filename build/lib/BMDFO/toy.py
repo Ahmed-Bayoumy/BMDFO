@@ -40,11 +40,15 @@ class DType:
     # default precision option
     _prec: str = "high"
     # numpy double data type precision
-    _dtype: np.dtype = np.float64
+    _dtype: np.dtype = None
     # numpy integer data type precision
-    _itype: np.dtype = np.int_
+    _itype: np.dtype = None
     # Zero resolution value
     _zero: float = np.finfo(np.float64).resolution
+
+    def __post_init__(self):
+        self._itype = np.int_
+        self.dtype = np.float64
 
     @property
     def zero(self):
